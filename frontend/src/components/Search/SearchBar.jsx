@@ -1,4 +1,5 @@
 import { useState } from "react"
+import "./SearchBar.css"
 
 const SearchBar = () => {
     const [search, setSearch] = useState('')
@@ -12,7 +13,18 @@ const SearchBar = () => {
     }
   
     return (
-    <div>SearchBar</div>
+    <div className="search-container">
+        <input 
+            type="text"
+            placeholder="Search..."
+            value={search}
+            onChange={handleSearch}
+        />
+        <button onClick={handleSearch}>
+            <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
+
+    </div>
   )
 }
 export default SearchBar
