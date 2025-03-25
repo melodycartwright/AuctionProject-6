@@ -1,18 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const Auction = require('../models/Auction');
+const auctionController = require('../controllers/auctionController');
 
-// Få alla auctioner
-router.get('/', async (req, res) => {
-    const auctions = await Auction.find();
-    res.json(auctions);
-});
+// Route to create an auction
+router.post('/', auctionController.createAuction);
 
-// Skapa ny auction
-router.post('/', async (req, res) => {
-    const auction = new Auction(req.body);
-    await auction.save();
-    res.json(auction);
-});
+// Route to get all auctions
+router.get('/', auctionController.getAllAuctions);
+
+// Route to get an auction by ID
+router.get('/:id', auctionController.getAuctionById);
+
+// Route to update an auction
+router.put('/:id', auctionController.updateAuction);
+
+// Route to delete an auction (if no bids)
+router.delete('/:id', auctionController.deleteAuction);
 
 module.exports = router;
+
