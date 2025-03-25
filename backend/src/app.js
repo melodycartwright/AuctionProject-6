@@ -4,7 +4,8 @@ const path = require("path");
 const auctionRoutes = require("./routes/auctionRoutes");
 const bidRoutes = require("./routes/bidRoutes");
 const cors = require("cors");
-const auth = require("./auth"); // Import your auth middleware if needed
+const auth = require("./middleware/auth"); // Import your auth middleware
+const errorHandler = require("./middleware/errorHandler"); // Import error handler
 
 const app = express();
 
@@ -16,8 +17,8 @@ app.use(express.json());
 app.use("/api/auctions", auctionRoutes);
 app.use("/api/bids", bidRoutes);
 
-// Serve static files in production (if needed)
-app.use(express.static(path.join(__dirname, "public")));
+// Error handling middleware (always put this at the end)
+app.use(errorHandler);
 
 // MongoDB Connection
 mongoose
