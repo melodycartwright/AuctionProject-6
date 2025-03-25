@@ -1,15 +1,14 @@
 import { useState } from "react"
+import { searchProducts } from "../../services/productService"
 import "./SearchBar.css"
 
 const SearchBar = () => {
-    const [search, setSearch] = useState('')
+    const [query, setQuery] = useState('')
     const [results, setResults] = useState([])
     
-    const handleSearch = async (e) => {
-        setSearch(e.target.value)
-        const res = await fetch(`/api/search?q=${e.target.value}`)
-        const data = await res.json()
-        setResults(data)
+    const handleSearch = async () => {
+            const data = await searchProducts(query)
+            setResults(data)
     }
   
     return (
@@ -17,12 +16,14 @@ const SearchBar = () => {
         <input 
             type="text"
             placeholder="Search..."
-            value={search}
-            onChange={handleSearch}
+            value={query}
+            onChange={(e) => setSearch(e.target.value)}
         />
         <button onClick={handleSearch}>
             <i className="fa-solid fa-magnifying-glass"></i>
         </button>
+
+
 
     </div>
   )
