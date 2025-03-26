@@ -39,7 +39,7 @@ exports.createCarAuction = async (req, res) => {
 // ✅ Get All Car Auctions
 exports.getAllCarAuctions = async (req, res) => {
   try {
-    const carAuctions = await CarAuction.find().populate("userId", "username");
+    const carAuctions = await CarAuction.find()//.populate("userId", "username");
     res.json(carAuctions);
   } catch (err) {
     res

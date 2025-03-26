@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<AuctionList />} />
+        <Route exact path="/" element={<AuctionList />} />
         <Route path="/create" element={<AuctionForm />} />
         <Route path="/auctions/:id" element={<AuctionDetails />} />
         <Route path="/login" element={<Login />} />

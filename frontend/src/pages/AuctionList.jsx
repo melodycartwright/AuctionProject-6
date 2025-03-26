@@ -1,6 +1,8 @@
+import SearchBar from "../components/Search/SearchBar"
+
 const AuctionList = () => {
   return (
-    <h1>Listed items</h1>
+    <SearchBar />
   )
 }
 export default AuctionList
