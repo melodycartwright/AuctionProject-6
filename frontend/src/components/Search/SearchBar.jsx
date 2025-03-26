@@ -1,13 +1,15 @@
-import { useState } from "react"
-import { searchProducts } from "../../services/productService"
+import { useContext, useRef } from "react"
+import { AuctionContext } from "../../contexts/AuctionProvider" 
 import "./SearchBar.css"
 
 const SearchBar = () => {
-    const [query, setQuery] = useState('')
-    const [results, setResults] = useState([])
+    
+    const textVal = useRef()
+    
+    const {searchAuction} = useContext(AuctionContext)
     
     const handleSearch = async () => {
-            const data = await searchProducts(query)
+            const data = await searchAuction(textVal.current.value)
             setResults(data)
     }
   
@@ -16,13 +18,13 @@ const SearchBar = () => {
         <input 
             type="text"
             placeholder="Search..."
-            value={query}
-            onChange={(e) => setSearch(e.target.value)}
+            ref={textVal}
         />
         <button onClick={handleSearch}>
             <i className="fa-solid fa-magnifying-glass"></i>
         </button>
 
+        {results.length > 0 && <AuctionCard results={results} />}
 
 
     </div>
