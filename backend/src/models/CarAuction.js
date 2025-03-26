@@ -33,11 +33,6 @@ const carAuctionSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Reference to the user who created the auction
-    required: true,
-  },
   status: {
     type: String,
     enum: ["open", "closed"],

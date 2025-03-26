@@ -4,7 +4,7 @@ const carAuctionController = require("../controllers/carAuctionController");
 const authenticate = require("../middleware/auth"); // Import the auth middleware
 
 // Route to create a car auction (protected route)
-router.post("/", authenticate, carAuctionController.createCarAuction);
+router.post("/", carAuctionController.createCarAuction);
 
 // Route to get all car auctions
 router.get("/", carAuctionController.getAllCarAuctions);

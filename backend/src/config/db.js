@@ -10,5 +10,6 @@ mongoose
     console.log("✅ Connected to MongoDB");
   })
   .catch((err) => {
+    console.log(MongoDB);
     console.error("❌ MongoDB connection error:", err);
   });
