@@ -13,9 +13,9 @@ router.get("/", carAuctionController.getAllCarAuctions);
 router.get("/:id", carAuctionController.getCarAuctionById);
 
 // Route to update a car auction (protected route)
-router.put("/:id", authenticate, carAuctionController.updateCarAuction);
+router.put("/:id", carAuctionController.updateCarAuction);
 
 // Route to delete a car auction (protected route)
-router.delete("/:id", authenticate, carAuctionController.deleteCarAuction);
+router.delete("/:id", carAuctionController.deleteCarAuction);
 
 module.exports = router;
