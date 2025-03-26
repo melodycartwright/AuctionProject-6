@@ -5,17 +5,17 @@ const mongoose = require("mongoose"); // ✅ Needed for ObjectId validation
 // ✅ Create Car Auction
 exports.createCarAuction = async (req, res) => {
   try {
-    const {
-      title,
-      description,
-      make,
-      model,
-      year,
-      price,
-      startDate,
-      endDate,
-      userId,
-    } = req.body;
+   const {
+  title,
+  description,
+  make,
+  model,
+  year,
+  price,
+  startDate,
+  endDate
+} = req.body;
+
 
     const carAuction = new CarAuction({
       title,
@@ -26,8 +26,8 @@ exports.createCarAuction = async (req, res) => {
       price,
       startDate,
       endDate,
-      userId,
     });
+
 
     await carAuction.save();
     res.status(201).json(carAuction);
@@ -58,10 +58,7 @@ exports.getCarAuctionById = async (req, res) => {
   }
 
   try {
-    const carAuction = await CarAuction.findById(id).populate(
-      "userId",
-      "username"
-    );
+    const carAuction = await CarAuction.findById(id); // no populate
 
     if (!carAuction) {
       return res.status(404).json({ message: "Car Auction not found" });
