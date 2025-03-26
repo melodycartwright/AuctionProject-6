@@ -44,7 +44,7 @@ const carAuctionSchema = new mongoose.Schema({
     default: "open",
   },
   id:{
-    type:number
+    type: Number
    }
 });
 

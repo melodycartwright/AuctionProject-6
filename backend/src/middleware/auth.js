@@ -1,9 +1,13 @@
+// src/middleware/auth.js
 const jwt = require("jsonwebtoken");
 
 const authenticate = (req, res, next) => {
-  if (process.env.NODE_ENV === "development") {
-    req.user = { userId: "test-user-id" }; 
-  }
+  const token = req.header("Authorization")?.replace("Bearer ", "");
+
+  if (!token) {
+    return res
+      .status(401)
+      .json({ message: "Access denied. No token provided." });
   }
 
   try {
@@ -11,8 +15,8 @@ const authenticate = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(400).json({ message: "Invalid token" });
+    return res.status(400).json({ message: "Invalid token" }); // ✅ Inside the function scope
   }
-;
+};
 
 module.exports = authenticate;
