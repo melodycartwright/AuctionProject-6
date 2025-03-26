@@ -1,28 +1,27 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const path = require("path");
-const auctionRoutes = require("./routes/auctionRoutes");
-const bidRoutes = require("./routes/bidRoutes");
 const cors = require("cors");
-const auth = require("./middleware/auth"); // Import your auth middleware
+const path = require("path");
+const carAuctionRoutes = require("./routes/carAuctionRoutes");
+const carBidRoutes = require("./routes/carBidRoutes");
+const authenticate = require("./middleware/auth"); // Import authentication middleware
 const errorHandler = require("./middleware/errorHandler"); // Import error handler
 
 const app = express();
 
-// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Middleware to parse incoming JSON data
 
 // Routes
-app.use("/api/auctions", auctionRoutes);
-app.use("/api/bids", bidRoutes);
+app.use("/api/auctions", carAuctionRoutes); // Car auction routes
+app.use("/api/bids", carBidRoutes); // Car bid routes
 
-// Error handling middleware (always put this at the end)
-app.use(errorHandler);
+// Error handling middleware (always put this at the end of all routes)
+app.use(errorHandler); // Global error handler
 
 // MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/auction", {
+  .connect("mongodb://localhost:27017/car-auction", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -33,6 +32,7 @@ mongoose
     console.log("MongoDB connection error", err);
   });
 
+// Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
