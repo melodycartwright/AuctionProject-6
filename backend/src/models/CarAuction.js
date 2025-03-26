@@ -43,6 +43,9 @@ const carAuctionSchema = new mongoose.Schema({
     enum: ["open", "closed"],
     default: "open",
   },
+  id:{
+    type:number
+   }
 });
 
 const CarAuction = mongoose.model("CarAuction", carAuctionSchema);

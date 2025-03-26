@@ -25,6 +25,7 @@ exports.createCarAuction = async (req, res) => {
       startDate,
       endDate,
       userId,
+      id,
     });
     await carAuction.save();
     res.status(201).json(carAuction);
