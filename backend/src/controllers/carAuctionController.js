@@ -1,21 +1,12 @@
 const CarAuction = require("../models/CarAuction");
 const CarBid = require("../models/CarBid");
-const mongoose = require("mongoose"); // ✅ Needed for ObjectId validation
+const mongoose = require("mongoose"); // For ObjectId validation
 
-// ✅ Create Car Auction
+// Create Car Auction
 exports.createCarAuction = async (req, res) => {
   try {
-   const {
-  title,
-  description,
-  make,
-  model,
-  year,
-  price,
-  startDate,
-  endDate
-} = req.body;
-
+    const { title, description, make, model, year, price, startDate, endDate } =
+      req.body;
 
     const carAuction = new CarAuction({
       title,
@@ -28,7 +19,6 @@ exports.createCarAuction = async (req, res) => {
       endDate,
     });
 
-
     await carAuction.save();
     res.status(201).json(carAuction);
   } catch (err) {
@@ -36,10 +26,10 @@ exports.createCarAuction = async (req, res) => {
   }
 };
 
-// ✅ Get All Car Auctions
+// Get All Car Auctions
 exports.getAllCarAuctions = async (req, res) => {
   try {
-    const carAuctions = await CarAuction.find()//.populate("userId", "username");
+    const carAuctions = await CarAuction.find().sort({ startDate: 1 }); // Sorting by start date as an example
     res.json(carAuctions);
   } catch (err) {
     res
@@ -48,34 +38,27 @@ exports.getAllCarAuctions = async (req, res) => {
   }
 };
 
-// ✅ Get Car Auction by ID (with validation + frontend-friendly id)
+// Get Car Auction by ID
 exports.getCarAuctionById = async (req, res) => {
   const { id } = req.params;
 
-  // Validate ID format
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(400).json({ message: "Invalid car ID format" });
   }
 
   try {
-    const carAuction = await CarAuction.findById(id); // no populate
-
+    const carAuction = await CarAuction.findById(id);
     if (!carAuction) {
       return res.status(404).json({ message: "Car Auction not found" });
     }
 
-    // Convert _id to id
-    const result = carAuction.toObject();
-    result.id = result._id;
-    delete result._id;
-
-    res.json(result);
+    res.json(carAuction);
   } catch (err) {
     res.status(500).json({ message: "Error fetching car auction", error: err });
   }
 };
 
-// ✅ Update Car Auction
+// Update Car Auction
 exports.updateCarAuction = async (req, res) => {
   try {
     const carAuction = await CarAuction.findByIdAndUpdate(
@@ -91,16 +74,14 @@ exports.updateCarAuction = async (req, res) => {
   }
 };
 
-// ✅ Delete Car Auction
+// Delete Car Auction
 exports.deleteCarAuction = async (req, res) => {
   try {
-    // Find the auction by ID
     const carAuction = await CarAuction.findById(req.params.id);
     if (!carAuction) {
       return res.status(404).json({ message: "Car Auction not found" });
     }
 
-    // Check if there are bids associated with the auction
     const bids = await CarBid.find({ carAuctionId: req.params.id });
     if (bids.length > 0) {
       return res
@@ -108,13 +89,10 @@ exports.deleteCarAuction = async (req, res) => {
         .json({ message: "Cannot delete car auction with bids" });
     }
 
-    // Delete the car auction
-   await carAuction.deleteOne();
-
-
+    await carAuction.deleteOne();
     res.json({ message: "Car Auction deleted successfully" });
   } catch (err) {
-    console.error("Error in deleteCarAuction:", err); // Log the error for better debugging
+    console.error("Error deleting car auction:", err);
     res
       .status(500)
       .json({ message: "Error deleting car auction", error: err.message });
