@@ -29,7 +29,9 @@ exports.createCarAuction = async (req, res) => {
 // Get All Car Auctions
 exports.getAllCarAuctions = async (req, res) => {
   try {
-    const carAuctions = await CarAuction.find().sort({ startDate: 1 }); // Sorting by start date as an example
+    const { search } = req.query;
+    const filter = search ? { title: { $regex: search, $options: "i" } } : {}; // Case-insensitive search by title
+    const carAuctions = await CarAuction.find(filter).sort({ startDate: 1 });
     res.json(carAuctions);
   } catch (err) {
     res
@@ -37,6 +39,7 @@ exports.getAllCarAuctions = async (req, res) => {
       .json({ message: "Error fetching car auctions", error: err });
   }
 };
+
 
 // Get Car Auction by ID
 exports.getCarAuctionById = async (req, res) => {
