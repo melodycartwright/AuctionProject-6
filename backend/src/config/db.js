@@ -1,5 +1,15 @@
-mongoose.connect('mongodb://localhost:27017/auction', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// db.js
+const mongoose = require("mongoose");
+require("dotenv").config(); // Load environment variables
 
+const MongoDB = process.env.MongoDB;
+
+mongoose
+  .connect(MongoDB)
+  .then(() => {
+    console.log("✅ Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.log(MongoDB);
+    console.error("❌ MongoDB connection error:", err);
+  });

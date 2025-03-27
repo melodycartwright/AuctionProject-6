@@ -1,12 +1,24 @@
 const mongoose = require("mongoose");
 
-const auctionSchema = new mongoose.Schema({
+const carAuctionSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
   description: {
     type: String,
+    required: true,
+  },
+  make: {
+    type: String,
+    required: true,
+  },
+  model: {
+    type: String,
+    required: true,
+  },
+  year: {
+    type: Number,
     required: true,
   },
   price: {
@@ -21,18 +33,16 @@ const auctionSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Reference to the user model
-    required: true,
-  },
   status: {
     type: String,
     enum: ["open", "closed"],
     default: "open",
   },
-});
+   
+  
+   }
+);
 
-const Auction = mongoose.model("Auction", auctionSchema);
+const CarAuction = mongoose.model("CarAuction", carAuctionSchema);
 
-module.exports = Auction;
+module.exports = CarAuction;

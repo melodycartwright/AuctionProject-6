@@ -1,8 +1,7 @@
+// src/middleware/auth.js
 const jwt = require("jsonwebtoken");
 
-// Middleware to protect routes
 const authenticate = (req, res, next) => {
-  // Get the token from the Authorization header
   const token = req.header("Authorization")?.replace("Bearer ", "");
 
   if (!token) {
@@ -12,12 +11,11 @@ const authenticate = (req, res, next) => {
   }
 
   try {
-    // Verify the token using your JWT secret
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Attach the user info to the request object
-    next(); // Proceed to the next middleware/route handler
+    req.user = decoded;
+    next();
   } catch (err) {
-    res.status(400).json({ message: "Invalid token" });
+    return res.status(400).json({ message: "Invalid token" }); // ✅ Inside the function scope
   }
 };
 

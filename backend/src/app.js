@@ -1,39 +1,29 @@
+// app.js
 const express = require("express");
-const mongoose = require("mongoose");
-const path = require("path");
-const auctionRoutes = require("./routes/auctionRoutes");
-const bidRoutes = require("./routes/bidRoutes");
 const cors = require("cors");
-const auth = require("./middleware/auth"); // Import your auth middleware
-const errorHandler = require("./middleware/errorHandler"); // Import error handler
+const path = require("path");
+require("dotenv").config();
+require("../src/config/db"); // ✅ This connects to MongoDB using your secure connection string
+
+const carAuctionRoutes = require("./routes/carAuctionRoutes");
+const carBidRoutes = require("./routes/carBidRoutes");
+const authenticate = require("./middleware/auth");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 
-// Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // Middleware to parse incoming JSON data
 
 // Routes
-app.use("/api/auctions", auctionRoutes);
-app.use("/api/bids", bidRoutes);
+app.use("/api/auctions", carAuctionRoutes);
+app.use("/api/bids", carBidRoutes);
 
-// Error handling middleware (always put this at the end)
+// Global error handler (always last)
 app.use(errorHandler);
 
-// MongoDB Connection
-mongoose
-  .connect("mongodb://localhost:27017/auction", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.log("MongoDB connection error", err);
-  });
-
+// ✅ Server start
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
