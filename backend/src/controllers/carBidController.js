@@ -3,11 +3,13 @@ const CarAuction = require("../models/CarAuction");
 
 // Place a Car Bid
 exports.placeCarBid = async (req, res) => {
-  const { carAuctionId, amount } = req.body;
+  const { carAuctionId, amount } = req.body; // `userId` is no longer part of the request body
+
   try {
     const carAuction = await CarAuction.findById(carAuctionId);
-    if (!carAuction)
+    if (!carAuction) {
       return res.status(404).json({ message: "Car Auction not found" });
+    }
 
     if (carAuction.status !== "open") {
       return res.status(400).json({ message: "Car Auction is closed" });
@@ -23,13 +25,14 @@ exports.placeCarBid = async (req, res) => {
         .json({ message: "Bid must be higher than the current highest bid" });
     }
 
-    const carBid = new CarBid({ carAuctionId, amount });
+    const carBid = new CarBid({ carAuctionId, amount }); // Removed `userId` from here
     await carBid.save();
     res.status(201).json(carBid);
   } catch (err) {
     res.status(500).json({ message: "Error placing car bid", error: err });
   }
 };
+
 
 // Get Bids for Car Auction
 exports.getBidsForCarAuction = async (req, res) => {
