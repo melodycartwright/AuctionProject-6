@@ -9,6 +9,7 @@ const carAuctionRoutes = require("./routes/carAuctionRoutes");
 const carBidRoutes = require("./routes/carBidRoutes");
 const authenticate = require("./middleware/auth");
 const errorHandler = require("./middleware/errorHandler");
+const { default: mongoose } = require("mongoose");
 
 const app = express();
 
@@ -21,6 +22,13 @@ app.use("/api/bids", carBidRoutes);
 
 // Global error handler (always last)
 app.use(errorHandler);
+
+//MongoDB COnnection
+
+mongoose
+.connect(process.env.MONGO_URI)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.log("MongoDB connection error:", err));
 
 // ✅ Server start
 const PORT = process.env.PORT || 3000;
