@@ -94,19 +94,29 @@ exports.updateCarAuction = async (req, res) => {
 // ✅ Delete Car Auction
 exports.deleteCarAuction = async (req, res) => {
   try {
+    // Find the auction by ID
     const carAuction = await CarAuction.findById(req.params.id);
-    if (!carAuction)
+    if (!carAuction) {
       return res.status(404).json({ message: "Car Auction not found" });
+    }
 
+    // Check if there are bids associated with the auction
     const bids = await CarBid.find({ carAuctionId: req.params.id });
-    if (bids.length > 0)
+    if (bids.length > 0) {
       return res
         .status(400)
         .json({ message: "Cannot delete car auction with bids" });
+    }
 
-    await carAuction.remove();
+    // Delete the car auction
+   await carAuction.deleteOne();
+
+
     res.json({ message: "Car Auction deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Error deleting car auction", error: err });
+    console.error("Error in deleteCarAuction:", err); // Log the error for better debugging
+    res
+      .status(500)
+      .json({ message: "Error deleting car auction", error: err.message });
   }
 };
