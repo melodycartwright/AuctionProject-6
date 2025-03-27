@@ -36,12 +36,23 @@ exports.placeCarBid = async (req, res) => {
 
 // Get Bids for Car Auction
 exports.getBidsForCarAuction = async (req, res) => {
+  const { carAuctionId } = req.params;
+
   try {
-    const carBids = await CarBid.find({ carAuctionId: req.params.carAuctionId })
-      .populate("userId", "username")
-      .sort({ amount: -1 }); // Highest bid on top
-    res.json(carBids);
+    // Ensure the auction exists
+    const carAuction = await CarAuction.findById(carAuctionId);
+    if (!carAuction) {
+      return res.status(404).json({ message: "Car Auction not found" });
+    }
+
+    // Fetch and sort the bids by amount (highest bid first)
+    const bids = await CarBid.find({ carAuctionId }).sort({ amount: -1 }); // Sort in descending order
+
+    res.status(200).json(bids);
   } catch (err) {
-    res.status(500).json({ message: "Error fetching car bids", error: err });
+    console.error("Error fetching bids:", err);
+    res
+      .status(500)
+      .json({ message: "Error fetching bids", error: err.message });
   }
 };
