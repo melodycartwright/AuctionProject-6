@@ -35,6 +35,7 @@ exports.placeCarBid = async (req, res) => {
 
 
 // Get Bids for Car Auction
+
 exports.getBidsForCarAuction = async (req, res) => {
   const { carAuctionId } = req.params;
 
@@ -46,8 +47,9 @@ exports.getBidsForCarAuction = async (req, res) => {
     }
 
     // Fetch and sort the bids by amount (highest bid first)
-    const bids = await CarBid.find({ carAuctionId }).sort({ amount: -1 }); // Sort in descending order
+    const bids = await CarBid.find({ carAuctionId }).sort({ amount: -1 }); // Sort by bid amount in descending order
 
+    // Return the bids
     res.status(200).json(bids);
   } catch (err) {
     console.error("Error fetching bids:", err);
