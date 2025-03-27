@@ -1,5 +1,6 @@
 const CarBid = require("../models/CarBid");
 const CarAuction = require("../models/CarAuction");
+const { default: mongoose } = require("mongoose");
 
 // Place a Car Bid
 exports.placeCarBid = async (req, res) => {
@@ -56,5 +57,29 @@ exports.getBidsForCarAuction = async (req, res) => {
     res
       .status(500)
       .json({ message: "Error fetching bids", error: err.message });
+  }
+};
+
+exports.deleteCarBid = async (req, res) => {
+  const { id } = req.params;
+
+  // Check if the ID is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID format" });
+  }
+
+  try {
+    const carBid = await CarBid.findByIdAndDelete(id); // Delete the bid by ID
+    if (!carBid) {
+      return res.status(404).json({ message: "Bid not found" });
+    }
+
+    // Successfully deleted the bid
+    res.status(200).json({ message: "Bid deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting car bid:", err);
+    res
+      .status(500)
+      .json({ message: "Error deleting car bid", error: err.message });
   }
 };
