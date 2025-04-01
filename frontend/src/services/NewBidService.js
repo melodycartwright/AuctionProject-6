@@ -14,7 +14,7 @@ export const placeCarBid = async (carAuctionId, amount) => {
 // Get Bids for Car Auction
 export const getBidsForCarAuction = async (carAuctionId) => {
   try {
-    const response = await axios.get(`http://localhost:3000/api/auctions/${carAuctionId}/bids`);
+    const response = await axios.get(`http://localhost:3000/api/bids/${carAuctionId}`);
     return response.data;
   } catch (error) {
     console.error('Error fetching bids:', error);
