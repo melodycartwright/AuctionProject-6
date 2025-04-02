@@ -14,8 +14,6 @@ const AuctionDetails = () => {
 
   useEffect(() => {
     (async () => {
-      const data = await getCarAuctionById(id);
-
       const[auctionData, bidsData] = await Promise.all([
         getCarAuctionById(id),
         getBidsForCarAuction(id),
