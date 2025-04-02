@@ -6,13 +6,14 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import AuctionForm from "./pages/AuctionForm"
 import { AuctionProvider } from "./contexts/AuctionProvider"
+import SearchBar from "./components/Search/SearchBar"
 
 
 function App() {
   return (
     <AuctionProvider>
     <Router>
-      <Navbar />
+    <Navbar />
       <Routes>
         <Route exact path="/" element={<AuctionList />} />
         <Route path="/create" element={<AuctionForm />} />

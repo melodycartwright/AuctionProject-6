@@ -1,21 +1,35 @@
-import { useState, createContext } from "react";
-import { getAuctions } from "../services/AuctionService";
+import { useState, createContext, useEffect, useContext } from "react";
+import { getAllCarAuctions } from "../services/NewAuctionService";
 
-export const AuctionContext = createContext();
+
+const AuctionContext = createContext();
 
 export const AuctionProvider = (props) => {
+    
     const [auctions, setAuctions] = useState([])
+    const [search, setSearch] = useState('')
 
-    const searchAuction = (title) => {
-        getAuctions(title)
-        .then(result => {
-            setAuctions(result)
-        })
+
+    
+    useEffect(() => {
+        
+            getAllCarAuctions().then(result => setAuctions(result))
+            
+        
+    }, [])
+
+
+    const searchAuction = async () => {
+        const data = await getAllCarAuctions(search)
+        setAuctions(data)
     }
 
     return (
-        <AuctionContext.Provider value={{ auctions, searchAuction }}>
+        <AuctionContext.Provider value={{ auctions, searchAuction, search, setSearch }}>
             {props.children}
         </AuctionContext.Provider>
     )
 }
+
+export const useAuctionContext = () => useContext(AuctionContext)
+

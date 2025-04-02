@@ -3,6 +3,7 @@ import { getCarAuctionById } from "../services/NewAuctionService";
 import { getBidsForCarAuction, placeCarBid } from "../services/NewBidService";
 import { useEffect, useState } from "react";
 import { formatTime } from "../util/format";
+import SearchBar from "../components/Search/SearchBar";
 
 const AuctionDetails = () => {
   const { id } = useParams()
@@ -35,6 +36,7 @@ const AuctionDetails = () => {
 
   return <>
     <div className="max-w-[900px] px-1 mx-auto">
+      <SearchBar />
       <h1 className="text-lg font-bold">{auction.title}</h1>
       <h2 className="font-semibold">{auction.description}</h2>
       <div class="flex gap-2">

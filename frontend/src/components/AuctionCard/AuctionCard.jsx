@@ -1,20 +1,19 @@
 import './AuctionCard.css'
 import { useNavigate } from 'react-router-dom'
 
-const AuctionCard = ({ auction }) => {
-
+const AuctionCard = ({ title, description, price, _id }) => {
+  console.log(_id)
     const navigate = useNavigate()
   return (
-    <div className="search-results">
-      {results.map((auction, index) => (
-        <div key={index}>
-          <h2>{auction.title}</h2>
-          <p>{auction.description}</p>
-          <h3>{auction.price}</h3>
-          <button onClick={() => navigate("/auctions/details/"+ auction.id)}>Details</button>
+    <div className="auction-card">
+        
+          <h2>{title}</h2>
+          <p>{description}</p>
+          <h3>{price}</h3>
+          <button onClick={() => navigate(`/auctions/${_id}`)}>Details</button>
         </div>
-      ))}
-    </div>
+      
+    
   )
 }
 
