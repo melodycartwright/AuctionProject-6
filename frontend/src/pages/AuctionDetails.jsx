@@ -13,20 +13,22 @@ const AuctionDetails = () => {
   const [amountInput, setAmountInput] = useState(0);
 
   useEffect(() => {
-    (async () => {
-      const[auctionData, bidsData] = await Promise.all([
-        getCarAuctionById(id),
-        getBidsForCarAuction(id),
-      ]);
-
-      setAuction(auctionData);
-      setBids(bidsData);
-    })();
+    loadData();
   }, [id]);
 
+  async function loadData() {
+    const[auctionData, bidsData] = await Promise.all([
+      getCarAuctionById(id),
+      getBidsForCarAuction(id),
+    ]);
+
+    setAuction(auctionData);
+    setBids(bidsData);
+  }
+
   async function onBid() {
-    const response = await placeCarBid(id, amountInput);
-    console.log('response', response);
+    await placeCarBid(id, amountInput);
+    await loadData();
   }
 
   if (!auction || !bids) return 'Loading...';
