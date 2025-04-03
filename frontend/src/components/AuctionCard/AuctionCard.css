@@ -1,7 +1,48 @@
 .auction-card {
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background: white;
-    width: 250px;
+    background-color: #f7f7f7;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.auction-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+.auction-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.auction-card p {
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.auction-card h3 {
+    color: #333;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.auction-card button {
+    align-self: flex-start;
+    padding: 0.4rem 1rem;
+    background-color: #008cba;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.auction-card button:hover {
+    background-color: #0073a1;
 }
