@@ -1,10 +1,11 @@
 import { useLocation } from "react-router-dom"
 import { useAuctionContext } from "../../contexts/AuctionProvider" 
 import "./SearchBar.css"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { getAllCarAuctions } from "../../services/NewAuctionService"
 
 const SearchBar = () => {
-    
+    const [inputValue, setInputValue] = useState('')
     //const textVal = useRef()
     const location = useLocation()
     const {searchAuction, search, setSearch} = useAuctionContext()
@@ -14,11 +15,7 @@ const SearchBar = () => {
             setResults(data)
     }
     */}
-    useEffect(() => {
-        if (location.pathname === '/') {
-            setSearch('')
-        }
-    }, [location.pathname])
+    
     return (
     <div className="search-container">
         <input 

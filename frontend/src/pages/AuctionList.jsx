@@ -7,11 +7,11 @@ import { useAuctionContext } from "../contexts/AuctionProvider"
 import SearchBar from "../components/Search/SearchBar";
 
 const AuctionList = () => {
-  {/*}
+  
   const { auctions } = useAuctionContext()
 
   return (
-    <div>
+    <div className="max-w-[900px] px-1 mx-auto">
       <SearchBar />
       <h1>Available Auctions</h1>
       <div className="auction-container">
@@ -28,7 +28,8 @@ const AuctionList = () => {
       </div>
     </div>
   )
-  */}
+  
+  {/*
   const [auctions, setAuctions] = useState(null);
 
   useEffect(() => {
@@ -41,7 +42,6 @@ const AuctionList = () => {
   if (!auctions) return 'Loading...';
 
   return <div className="max-w-[900px] px-1 mx-auto">
-    <SearchBar />
     <h2 className="pt-4 pl-2 text-2xl font-bold">Car auctions</h2>
     <div class="grid gap-2">
       {auctions.map((auction, i) => <Link to={`/auctions/${auction._id}`} className="block cursor-pointer p-2 hover:bg-gray-100 rounded">
@@ -65,5 +65,6 @@ const AuctionList = () => {
       </Link>)}
     </div>
   </div>
+  */}
 }
 export default AuctionList

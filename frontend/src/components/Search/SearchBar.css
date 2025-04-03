@@ -17,7 +17,7 @@
     background: #f7f7f7;
 }
 
-.search-bar button{
+.search-container button{
     cursor: pointer;
     border: none;
     outline: none;
@@ -29,6 +29,6 @@
     opacity: 0.6;
 }
 
-.search-bar button:hover{
+.search-container button:hover{
     opacity: 1;
 }

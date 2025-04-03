@@ -12,12 +12,16 @@ export const AuctionProvider = (props) => {
 
     
     useEffect(() => {
-        
+            
             getAllCarAuctions().then(result => setAuctions(result))
             
         
     }, [])
 
+    const resetAuctions = async () => {
+        const allAuctions = await getAllCarAuctions()
+        setAuctions(allAuctions)
+    }
 
     const searchAuction = async () => {
         const data = await getAllCarAuctions(search)
@@ -25,7 +29,7 @@ export const AuctionProvider = (props) => {
     }
 
     return (
-        <AuctionContext.Provider value={{ auctions, searchAuction, search, setSearch }}>
+        <AuctionContext.Provider value={{ auctions, searchAuction, search, setSearch, resetAuctions }}>
             {props.children}
         </AuctionContext.Provider>
     )
