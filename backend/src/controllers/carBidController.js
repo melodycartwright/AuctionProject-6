@@ -12,31 +12,42 @@ exports.placeCarBid = async (req, res) => {
       return res.status(404).json({ message: "Car Auction not found" });
     }
 
+    // Check if the auction has ended
+    if (new Date() > new Date(carAuction.endDate)) {
+      return res
+        .status(400)
+        .json({ message: "Auction has ended. Bidding is closed." });
+    }
+
+    // Check if the auction is still open
     if (carAuction.status !== "open") {
       return res.status(400).json({ message: "Car Auction is closed" });
     }
 
+    // Get the highest bid so far
     const highestBid = await CarBid.findOne({ carAuctionId }).sort({
       amount: -1,
     });
 
+    // Ensure the new bid is higher than the current highest bid
     if (amount <= (highestBid ? highestBid.amount : carAuction.price)) {
       return res
         .status(400)
         .json({ message: "Bid must be higher than the current highest bid" });
     }
 
-    const carBid = new CarBid({ carAuctionId, amount }); // Removed `userId` from here
+    // Create and save the new bid
+    const carBid = new CarBid({ carAuctionId, amount });
     await carBid.save();
     res.status(201).json(carBid);
   } catch (err) {
-    res.status(500).json({ message: "Error placing car bid", error: err });
+    res
+      .status(500)
+      .json({ message: "Error placing car bid", error: err.message });
   }
 };
 
-
 // Get Bids for Car Auction
-
 exports.getBidsForCarAuction = async (req, res) => {
   const { carAuctionId } = req.params;
 
@@ -60,6 +71,7 @@ exports.getBidsForCarAuction = async (req, res) => {
   }
 };
 
+// Delete Car Bid
 exports.deleteCarBid = async (req, res) => {
   const { id } = req.params;
 
