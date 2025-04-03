@@ -1,6 +1,10 @@
+import CreateAuctionForm from "../components/CreateAuctionForm/CreateAuctionForm"
+
 const AuctionForm = () => {
   return (
-    <div>AuctionForm</div>
+    <div>
+      <CreateAuctionForm />
+    </div>
   )
 }
 export default AuctionForm
